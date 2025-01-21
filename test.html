@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vignettes</title>
+    <!-- Lien Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Liste des Vignettes</h1>
+        <div class="row">
+            {% for person in people %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="row g-0">
+                        <!-- Image -->
+                        <div class="col-md-4">
+                            <img src="{{ person.image.url }}" class="img-fluid rounded-start" alt="Image de {{ person.nom }}">
+                        </div>
+                        <!-- Informations -->
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ person.nom }} {{ person.prenom }}</h5>
+                                <p class="card-text">Informations supplémentaires ici.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Lien Bootstrap JS (facultatif pour interactivité) docker exec -it postgres_db psql -U django -d django_db -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
