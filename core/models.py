@@ -5,7 +5,7 @@ class FacteurChoc(models.Model):
     etat = models.CharField(max_length=5, unique=True)  
     class Meta:
         db_table = '"projet"."facteur_choc"'
-        managed = False
+        # managed = False
     def __str__(self):
         return self.etat
 
@@ -13,7 +13,7 @@ class DegreChoc(models.Model):
     etat  = models.CharField(max_length=50)    
     class Meta:
         db_table = '"projet"."degre_choc"'
-        managed = False
+        # managed = False
     def __str__(self):
         return self.etat
 
@@ -21,7 +21,7 @@ class AvecPlot(models.Model):
     etat = models.CharField(max_length=150, unique=True)   
     class Meta:
         db_table = '"projet"."avec_plots"'
-        managed = False
+        # managed = False
     def __str__(self):
         return self.etat
     
@@ -30,7 +30,7 @@ class AvecCarlingage(models.Model):
     etat = models.CharField(max_length=75)    
     class Meta:
         db_table = '"projet"."avec_carlingage"'
-        managed = False
+        # managed = False
     def __str__(self):
         return self.etat
 
@@ -40,7 +40,7 @@ class ProprieteDc(models.Model):
     displaymode = models.CharField(max_length=50)   
     class Meta:
         db_table = '"projet"."proriete_dc"'
-        managed = False
+        # managed = False
 
 class Ouvrage(TenantMixin):
     name = models.CharField(max_length=25, unique=True)
@@ -51,7 +51,7 @@ class Ouvrage(TenantMixin):
     auto_create_schema = True
     class Meta:
         db_table = '"public"."ouvrage"'
-        managed = False
+        # managed = False
  
 
 class ObjectsFromCao(models.Model):
@@ -129,7 +129,7 @@ class ConsolidationRule(models.Model):
         return self.property_name
     class Meta:
         db_table = '"public"."consolidation_rule"'
-        managed = False
+        # managed = False
    
 
 class TmpObjectsFromCao(models.Model):
