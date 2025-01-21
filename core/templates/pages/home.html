@@ -1,0 +1,182 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load render_table from django_tables2 %}
+{% block nvabar %}
+<!-- As a link -->
+<style>
+  /* Cacher les inputs par défaut */
+  .filter-input {
+      display: none;
+      margin-top: 5px;
+  }
+
+  .filter-label {
+      cursor: pointer;
+      font-weight: bold;
+      color: #007bff;
+      text-decoration: underline;
+      margin-bottom: 5px;
+  }
+
+  .filter-label:hover {
+      text-decoration: none;
+  }
+</style>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg" style="background-color: #005d81">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Navbar brand -->
+      <a class="navbar-brand" href="#"><img src="{% static 'core/img/cdLogo.JPG' %}" alt="" width="100%" height="45"></a>
+        <!-- Right links -->
+        <ul class="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0">
+          <li class="nav-item text-center mx-2 mx-lg-1">
+            <a class="nav-link" href="#!">
+              <div>
+                <i class="fas fa-bell fa-lg mb-1"></i>
+                <span class="badge rounded-pill badge-notification bg-info">INIT FILTRE</span>
+              </div>              
+            </a>
+          </li>
+          <li class="nav-item text-center mx-2 mx-lg-1">
+            <a class="nav-link" href="#!">
+              <div>
+                <i class="fas fa-globe-americas fa-lg mb-1"></i>
+                <span class="badge rounded-pill badge-notification bg-success">REFRESH</span>
+              </div>              
+            </a>
+          </li>
+          <li class="nav-item text-center mx-2 mx-lg-1">
+            <a class="nav-link" href="#!">
+              <div>
+                <i class="fas fa-globe-americas fa-lg mb-1"></i>
+                <span class="badge rounded-pill badge-notification bg-info">APPLY MODIF</span>
+              </div>              
+            </a>
+          </li>
+          <li class="nav-item text-center mx-2 mx-lg-1">
+            <a class="nav-link" href="#!">
+              <div>
+                <i class="fas fa-globe-americas fa-lg mb-1"></i>
+                <span class="badge rounded-pill badge-notification bg-danger">DELETE</span>
+              </div>              
+            </a>
+          </li>
+        </ul>
+        <!-- Right links -->
+  
+        <!-- Search form -->
+        <form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">
+          <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+          <button class="btn btn-primary" type="button" data-mdb-ripple-init data-mdb-ripple-color="dark">
+            Search
+          </button>
+        </form>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+ 
+{% endblock %}
+{% block content%}
+
+<ul id="context-menu" class="dropdown-menu" style="display: block; position: absolute; width:10%;">
+    <form method="get">  
+        <div id="filter-menu">
+          <!-- Parcourir les champs du formulaire de filtre -->
+          {% for field in filtreform.form %}
+              <div class="filter-group">
+                  <div class="filter-label" data-filter-id="{{ field.id_for_label }}">
+                      {{ field.label }} <!-- Affiche le label du champ -->
+                  </div>
+                  <div class="filter-input" id="{{ field.id_for_label }}">
+                      {{ field }}
+                  </div>
+              </div>
+          {% endfor %}
+      </div>
+
+      <button type="submit">Filtrer</button>       
+    </form>
+</ul>
+
+<br>
+<div class="table container-fluid">   
+    {% render_table tables_consolide %}  
+</div>
+{% endblock%}
+{% block script %}
+<script>
+    ListOfSelectableValue = {{ checkSelection|safe }};
+    $(document).ready(function() {
+      // Afficher automatiquement les champs avec une valeur
+      $('.filter-input').each(function() {
+          if ($(this).find('input, select').val()) {
+              $(this).show();
+          }
+      });
+  
+      // Afficher/cacher les champs au clic
+      $('.filter-label').on('click', function() {
+          const filterId = $(this).data('filter-id'); // Récupérer l'ID associé
+          $('#' + filterId).slideToggle(); // Afficher ou cacher le champ
+      });
+  });  
+    {% comment %} $(document).ready(function(){         
+        $('table thead th').click(function(e){
+            e.preventDefault();
+            var x = e.pageX - 15;
+            var y = e.pageY + 15;
+            const filterId = $(this).data('filter-id'); // Récupérer l'ID associé
+            $('#' + filterId).slideToggle();
+            var ckir = $(this).attr('id');            
+            $('.filter-label').each(function() {
+                var inputId = $(this).data('filter-id');                
+                var findit = ckir +"_";
+                console.log(inputId + " " + findit);
+                if (inputId && inputId.includes(findit)) {
+                    $(this).show(); 
+                } else {
+                    $(this).hide();
+                }; 
+            });
+            $("#context-menu").css({
+                display: "block",
+                left: x,
+                top: y
+            });
+            return false;
+        });
+       
+        $('table').DataTable({
+        paging: true,
+        searching: false, 
+        ordering: true
+        // scrollX: true,
+        // scrollY: 200
+      });
+      $('.filter-label').on('click', function() {
+        const filterId = $(this).data('filter-id'); // Récupérer l'ID associé
+        $('#' + filterId).slideToggle(); // Afficher ou cacher le champ
+      });     
+      // console.log(ListOfSelectableValue);  
+      // $("table tbody td").on("click", function(){
+      //       const cellIndex = $(this).index();
+      //       const columnHeader = $('table thead th').eq(cellIndex)
+      //       const HeaderId = columnHeader.attr('id');           
+      //       ListDictValue = ListOfSelectableValue[HeaderId];
+      //       key_etat = HeaderId + "__etat";
+      //       key_id = HeaderId + "_id";
+      //       List2Select = [];
+      //       if (typeof(ListDictValue)!="undefined"){
+      //           ListDictValue.forEach(element => {
+      //               List2Select.push([element[key_id], element[key_etat]]);
+      //           });                    
+      //       }               
+      //       alert("vous avez clické sur la column " +  List2Select);
+      // });       
+    }); {% endcomment %}
+</script>
+{% endblock%}

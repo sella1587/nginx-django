@@ -1,0 +1,17 @@
+django
+django-crispy-forms
+crispy-tailwind
+djangorestframework
+djangorestframework-simplejwt
+dj-rest-auth
+django-cors-headers
+psycopg[binary]
+django-filter
+python-decouple
+markdown
+drf-yasg
+pandas
+django-tables2
+uvicorn
+django-tenants
+python-decouple
