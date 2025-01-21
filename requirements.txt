@@ -12,6 +12,6 @@ markdown
 drf-yasg
 pandas
 django-tables2
-uvicorn
+gunicorn
 django-tenants
 python-decouple
